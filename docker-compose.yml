@@ -1,0 +1,8 @@
+version: '3'
+services:
+  runner:
+    command: python main.py --root=/dir
+    build: ./
+    volumes:
+    - ./app:/app
+    - ./dir:/dir

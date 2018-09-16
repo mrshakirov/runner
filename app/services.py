@@ -14,18 +14,18 @@ class Report:
     __exclude = ',.:;!?()'
 
     @classmethod
+    def words(cls) -> dict:
+        return cls.__words
+
+    @classmethod
     def add(cls, words: dict):
         words = {cls.pre_process(k): v for k, v in words.items()}
         cls.__words = collections.Counter(cls.__words) + collections.Counter(words)
 
     @classmethod
     def pre_process(cls, word: str) -> str:
-        result = ''
-        for i in word:
-            if i in cls.__exclude:
-                continue
-            result += i
-        return result
+        result = ''.join(i for i in word if i not in cls.__exclude)
+        return result.lower()
 
     @classmethod
     def draw(cls):

@@ -5,6 +5,7 @@
 # First start
 - cd <PROJECT_ROOT>
 - docker-compose up
+- check out directory
 
 # Settings
 You can add your own directory into container. You just need to add the absolute

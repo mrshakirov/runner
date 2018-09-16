@@ -1,2 +1,11 @@
-This PEP aims to provide a standard syntax for type annotations, opening up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information.
-Of these goals, static analysis is the most important. This includes support for off-line type checkers such as mypy, as well as providing a standard notation that can be used by IDEs for code completion and refactoring.
+Type hints may be built-in classes (including those defined in standard library or third-party extension modules), abstract base classes, types available in the types module, and user-defined classes (including those defined in the standard library or third-party modules).
+
+While annotations are normally the best format for type hints, there are times when it is more appropriate to represent them by a special comment, or in a separately distributed stub file. (See below for examples.)
+
+Annotations must be valid expressions that evaluate without raising exceptions at the time the function is defined (but see below for forward references).
+
+Annotations should be kept simple or static analysis tools may not be able to interpret the values. For example, dynamically computed types are unlikely to be understood. (This is an intentionally somewhat vague requirement, specific inclusions and exclusions may be added to future versions of this PEP as warranted by the discussion.)
+
+In addition to the above, the following special constructs defined below may be used: None, Any, Union, Tuple, Callable, all ABCs and stand-ins for concrete classes exported from typing (e.g. Sequence and Dict), type variables, and type aliases.
+
+All newly introduced names used to support features described in following sections (such as Any and Union) are available in the typing module.

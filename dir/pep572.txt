@@ -1,0 +1,11 @@
+During the development of this PEP many people (supporters and critics both) have had a tendency to focus on toy examples on the one hand, and on overly complex examples on the other.
+
+The danger of toy examples is twofold: they are often too abstract to make anyone go "ooh, that's compelling", and they are easily refuted with "I would never write it that way anyway".
+
+The danger of overly complex examples is that they provide a convenient strawman for critics of the proposal to shoot down ("that's obfuscated").
+
+Yet there is some use for both extremely simple and extremely complex examples: they are helpful to clarify the intended semantics. Therefore there will be some of each below.
+
+However, in order to be compelling, examples should be rooted in real code, i.e. code that was written without any thought of this PEP, as part of a useful application, however large or small. Tim Peters has been extremely helpful by going over his own personal code repository and picking examples of code he had written that (in his view) would have been clearer if rewritten with (sparing) use of assignment expressions. His conclusion: the current proposal would have allowed a modest but clear improvement in quite a few bits of code.
+
+Another use of real code is to observe indirectly how much value programmers place on compactness. Guido van Rossum searched through a Dropbox code base and discovered some evidence that programmers value writing fewer lines over shorter lines.

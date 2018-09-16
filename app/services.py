@@ -1,4 +1,5 @@
 import collections
+import concurrent.futures as cf
 import datetime as dt
 import io
 import os
@@ -45,7 +46,7 @@ class TXTReader:
     def read(file: str):
         with open(file, 'r') as f:
             content = f.read()
-            Report.add(collections.Counter(content.split()))
+            Report.add(collections.Counter(content.split()))  # hi, gil
 
 
 class ZIPReader:
@@ -58,12 +59,14 @@ class ZIPReader:
                     continue
                 if extension == '.txt':
                     content = z.read(zfile).decode()
-                    Report.add(collections.Counter(content.split()))
+                    Report.add(collections.Counter(content.split()))  # hi, gil
                 elif extension == '.zip':
                     cls.read(stream=z.read(zfile))
 
 
 class Runner:
+    __executor = cf.ThreadPoolExecutor(max_workers=10)
+
     @classmethod
     def start(cls, path: str):
         for root, _, files in os.walk(path):
@@ -71,6 +74,9 @@ class Runner:
                 file = os.path.join(root, file)
                 _, extension = os.path.splitext(file)
                 if extension == '.txt':
-                    TXTReader.read(file)
+                    reader = TXTReader
                 elif extension == '.zip':
-                    ZIPReader.read(file)
+                    reader = ZIPReader
+                else:
+                    continue
+                cls.__executor.submit(reader.read, file)

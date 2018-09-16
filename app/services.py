@@ -15,7 +15,11 @@ class Report:
 
     @classmethod
     def words(cls) -> dict:
-        return cls.__words
+        return cls.__words.copy()
+
+    @classmethod
+    def clear(cls):
+        cls.__words.clear()
 
     @classmethod
     def add(cls, words: dict):

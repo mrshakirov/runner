@@ -4,7 +4,9 @@ services:
     command: python main.py --root=/dir
     build: ./
     environment:
-    - OUT=/out
+    - OUT_PATH=/out
+    - OUT_WIDTH=50
+    - OUT_HEIGHT=20
     volumes:
     - ./app:/app
     - ./dir:/dir

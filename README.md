@@ -13,3 +13,6 @@ as argument for script start command. Example:
 - python main.py --root=/dir
 - python main.py --root=/dir2
 - python main.py --root=/dir3
+
+# Test
+docker-compose run runner python -m unittest discover -p *_test.py

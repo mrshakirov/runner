@@ -34,7 +34,11 @@ class TXTReaderTestCase(unittest.TestCase):
 class ZIPReaderTestCase(unittest.TestCase):
     @clear
     def test_read(self):
-        pass
+        services.ZIPReader.read('test.txt.zip')
+        self.assertEqual(services.Report.words(), {
+            'one': 1,
+            'two': 1,
+            'three': 1})
 
 
 if __name__ == '__main__':

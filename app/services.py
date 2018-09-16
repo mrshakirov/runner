@@ -11,28 +11,25 @@ import conf
 
 class Report:
     __words = dict()
+    __exclude = ',.:;!?()'
 
     @classmethod
     def add(cls, words: dict):
-        words = {cls.__pre_process(k): v for k, v in words.items()}
+        words = {cls.pre_process(k): v for k, v in words.items()}
         cls.__words = collections.Counter(cls.__words) + collections.Counter(words)
 
     @classmethod
-    def __pre_process(cls, word: str) -> str:
-        return word.lower()\
-            .replace(',', '')\
-            .replace('.', '')\
-            .replace(':', '')\
-            .replace(';', '')\
-            .replace('!', '')\
-            .replace('?', '')\
-            .replace('(', '')\
-            .replace(')', '')
+    def pre_process(cls, word: str) -> str:
+        result = ''
+        for i in word:
+            if i in cls.__exclude:
+                continue
+            result += i
+        return result
 
     @classmethod
     def draw(cls):
         file = '%s/%s.png' % (conf.OUT_PATH, str(dt.datetime.now()))
-
         fig, ax = plt.subplots(figsize=(conf.OUT_WIDTH, conf.OUT_HEIGHT))
         ax.bar(cls.__words.keys(), cls.__words.values())
         plt.xticks(rotation=90)

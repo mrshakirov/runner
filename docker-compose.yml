@@ -3,6 +3,9 @@ services:
   runner:
     command: python main.py --root=/dir
     build: ./
+    environment:
+    - OUT=/out
     volumes:
     - ./app:/app
     - ./dir:/dir
+    - ./out:/out

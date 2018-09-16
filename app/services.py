@@ -1,19 +1,32 @@
+import collections
+import datetime as dt
 import io
 import os
 import zipfile
 
+import matplotlib as m
+m.use('agg')
+import matplotlib.pyplot as mp
+
+import conf
+
 
 class Report:
-    __files = list()
+    __words = dict()
 
     @classmethod
-    def files(cls) -> list:
-        return cls.__files
+    def add(cls, words: dict):
+        words = {k.lower(): v for k, v in words.items()}
+        cls.__words = collections.Counter(cls.__words) + collections.Counter(words)
 
     @classmethod
-    def add(cls, file: str, count: int):
-        cls.__files.append((file, count))
-
+    def draw(cls):
+        file = '%s/%s.png' % (conf.OUT, str(dt.datetime.now()))
+        money = [i[1] for i in cls.__words]
+        fig, ax = mp.subplots()
+        mp.bar(money, money)
+        mp.xticks(money, [i[0] for i in cls.__words])
+        mp.savefig(file)
 
 
 class TXTReader:
@@ -21,7 +34,7 @@ class TXTReader:
     def read(file: str):
         with open(file, 'r') as f:
             content = f.read()
-            Report.add(file, len(content.split()))
+            Report.add(collections.Counter(content.split()))
 
 
 class ZIPReader:
@@ -33,8 +46,8 @@ class ZIPReader:
                 if path.startswith('__MACOSX'):
                     continue
                 if extension == '.txt':
-                    content = z.read(zfile)
-                    Report.add(zfile, len(content.split()))
+                    content = z.read(zfile).decode()
+                    Report.add(collections.Counter(content.split()))
                 elif extension == '.zip':
                     cls.read(stream=z.read(zfile))
 
